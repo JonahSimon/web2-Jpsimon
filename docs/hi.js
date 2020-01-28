@@ -1,2 +1,3 @@
 alert('Hi')
-console.log('first message here')
+let x = "puppy"
+console.log('first message here also x=' + x)
