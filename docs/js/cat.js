@@ -9,3 +9,4 @@ function hideCat() {
 }
 
 hideCat()
+setTimeout(seeCat, 5000)
