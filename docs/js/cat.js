@@ -25,6 +25,7 @@ function changeParagraph() {
 }
 
 hideCat()
+hideCat()
 setTimeout(seeCat, 5000)
-setTimeout(() => {changeParagraph() }, 2000)
+setTimeout(() => {changeParagraph() }, 5000)
 setInterval(() => {moveCat() }, 1000)
