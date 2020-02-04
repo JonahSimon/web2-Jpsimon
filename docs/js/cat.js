@@ -15,7 +15,8 @@ function moveCat() {
     let cat = document.getElementById("cat")
     catX = Math.random()*400;
     catY = Math.random()*400;
-    cat.style = "left: " + catX + "px; top: " + catY + "px;"
+    let newstyle = "left: " + catX + "px; top: " + catY + "px;"
+    cat.style = newstyle;
 }
 
 function changeParagraph() {
@@ -23,9 +24,7 @@ function changeParagraph() {
     para.textContent = "Now I have changed this text"
 }
 
-function 
-
 hideCat()
 setTimeout(seeCat, 5000)
-setTimeout(changeParagraph, 10000)
+setTimeout(() => {changeParagraph() }, 2000)
 setInterval(() => {moveCat() }, 1000)
