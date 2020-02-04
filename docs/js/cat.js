@@ -28,4 +28,4 @@ function
 hideCat()
 setTimeout(seeCat, 5000)
 setTimeout(changeParagraph, 10000)
-setInterval(moveCat, 5000)
+setInterval(() => {moveCat() }, 1000)
