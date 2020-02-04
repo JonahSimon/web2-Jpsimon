@@ -1,5 +1,7 @@
 let catX = 0;
 let catY = 0;
+let catScore = 0;
+
 
 function seeCat() {
     let cat = document.getElementById("cat")
@@ -12,7 +14,7 @@ function hideCat() {
 }
 
 function clickCat(){
-    alert("clicked!")
+    catScore = catScore + 1;
 }
 
 function moveCat() {
@@ -21,6 +23,7 @@ function moveCat() {
     catY = 200;
     let newStyle = "left: " + catX + "px; top: " + catY + "px;"
     cat.style = newstyle;
+    catScore = catScore -1;
 }
 
 function changeParagraph() {
