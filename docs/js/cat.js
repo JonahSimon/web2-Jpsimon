@@ -11,11 +11,15 @@ function hideCat() {
     cat.style= "display: none"
 }
 
+function clickCat(){
+    alert("clicked!")
+}
+
 function moveCat() {
     let cat = document.getElementById("cat")
-    catX = Math.random()*400;
-    catY = Math.random()*400;
-    let newstyle = "left: " + catX + "px; top: " + catY + "px;"
+    catX = 200;
+    catY = 200;
+    let newStyle = "left: " + catX + "px; top: " + catY + "px;"
     cat.style = newstyle;
 }
 
@@ -24,8 +28,5 @@ function changeParagraph() {
     para.textContent = "Now I have changed this text"
 }
 
-hideCat()
-hideCat()
-setTimeout(seeCat, 5000)
 setTimeout(() => {changeParagraph() }, 5000)
 setInterval(() => {moveCat() }, 1000)
