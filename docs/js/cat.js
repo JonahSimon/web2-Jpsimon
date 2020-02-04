@@ -1,5 +1,5 @@
 let catX = 0;
-let caty = 0;
+let catY = 0;
 
 function seeCat() {
     let cat = document.getElementById("cat")
