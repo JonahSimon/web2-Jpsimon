@@ -22,7 +22,7 @@ function moveCat() {
     catX = 200;
     catY = 200;
     let newStyle = "left: " + catX + "px; top: " + catY + "px;"
-    cat.style = newstyle;
+    cat.style = newStyle;
     catScore = catScore -1;
 }
 
