@@ -26,10 +26,15 @@ function moveCat() {
     catScore = catScore -1;
 }
 
+function updateScore(){
+    let score = document.getElementById("score");
+    score.innerHTML = catScore;
+}
+
 function changeParagraph() {
     let para = document.getElementById("test")
     para.textContent = "Now I have changed this text"
 }
 
 setTimeout(() => {changeParagraph() }, 5000)
-setInterval(() => {moveCat() }, 1000)
+setInterval(() => { moveCat(); updateScore() }, 1000)
