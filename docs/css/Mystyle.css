@@ -18,3 +18,19 @@ p {
 	top: 0px;
 }
 
+#meowmeow {
+	width : 100px;
+	height : 100px;
+	position: absolute;
+	left: 10px;
+	top: 0px;
+}
+
+#fluffy {
+	width : 100px;
+	height : 100px;
+	position: absolute;
+	left: 400px;
+	top: 0px;
+}
+

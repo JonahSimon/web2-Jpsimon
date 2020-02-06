@@ -1,35 +1,42 @@
-let catX = 0;
-let catY = 0;
-let catScore = 0;
+class Cat {
+    constructor(ID,originX,originY,width,height){
+        this.ID = ID;
+        this.originX = originX;
+        this.originY = originY;
+        this.width = width;
+        this.height = height;
+        this.x = 0;
+        this.y = 0;
+        this.score = 0;
+        let me = this;
+        setInterval(() => {me.move(); me.updateScore()}, 1000)
+        let cat = document.getElementById(this.ID);
+        cat.addEventListener("click", () => { me.click(); })
+    }
 
+    click() {
+        this.score = this.score + 1;
+    }
 
-function seeCat() {
-    let cat = document.getElementById("cat")
-    cat.style= "display: block"
+    move() {
+        let cat = document.getElementById(this.ID);
+        this.x = this.originX + Math.random()*this.width;
+        this.y = this.originY + Math.random()*this.height;
+        let newStyle = "left: " + this.x + "px; top: " + this.y + "px;";
+        cat.style = newStyle;
+        this.score = this.score - 1;
+    }
+
+    updateScore() {
+        let score = document.getElementById(this.ID + "-score");
+        score.innerHTML = this.score;
+    }
+
 }
 
-function hideCat() {
-    let cat = document.getElementById("cat")
-    cat.style= "display: none"
-}
+let meowmeow = new Cat("meowmeow", 0,10,100,100);
+let fluffy = new Cat("fluffy", 400 ,0, 100,100);
 
-function clickCat(){
-    catScore = catScore + 1;
-}
-
-function moveCat() {
-    let cat = document.getElementById("cat")
-    catX = 200;
-    catY = 200;
-    let newStyle = "left: " + catX + "px; top: " + catY + "px;"
-    cat.style = newStyle;
-    catScore = catScore -1;
-}
-
-function updateScore(){
-    let score = document.getElementById("score");
-    score.innerHTML = catScore;
-}
 
 function changeParagraph() {
     let para = document.getElementById("test")
@@ -37,4 +44,3 @@ function changeParagraph() {
 }
 
 setTimeout(() => {changeParagraph() }, 5000)
-setInterval(() => { moveCat(); updateScore() }, 1000)
