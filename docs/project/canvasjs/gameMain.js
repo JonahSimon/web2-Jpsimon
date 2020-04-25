@@ -1,14 +1,19 @@
 var myGamePiece;
+var myWalls = [];
 var myObstacles = [];
 var bullets = [];
 
+// start game, draw players and walls. 
 function startGame() {
-
     myGameArea.start();
-    myGamePiece = new component(30, 30, "red", 10, 120, "player");
-    myObstacle = new component(30, 30, "green", 300, 200, "zombie");
+    myGamePiece = new component(30, 30, "red", 120, 120, "player");
+    myWalls.push(new component( 20, window.innerHeight * 2, "green", 0, 0, "wall"));
+    myWalls.push(new component( window.innerWidth * 2, 20, "green", 0, 0, "wall"));
+    myWalls.push(new component( 20, window.innerHeight * 2, "green", window.innerWidth, 0, "wall"));
+    myWalls.push(new component( window.innerWidth * 2, 20, "green", 0, window.innerHeight, "wall"));
 }
 
+// the play area
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -36,6 +41,7 @@ var myGameArea = {
     }
 }
 
+// the base function for all elements in the game.
 function component(width, height, color, x, y, type) {
     this.type = type;
     this.width = width;
@@ -44,7 +50,8 @@ function component(width, height, color, x, y, type) {
     this.moveAngle = 0;
     this.speed = 0;  
     this.x = x;
-    this.y = y;    
+    this.y = y;
+    // saving and roating the shapes to be displayed on canvas again    
     this.update = function() {
         ctx = myGameArea.context;
         ctx.save();
@@ -54,11 +61,13 @@ function component(width, height, color, x, y, type) {
         ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
         ctx.restore();
     }
+    // updating position based on angles and speed
     this.newPos = function() {
         this.angle += this.moveAngle * Math.PI / 180;
         this.x += this.speed * Math.sin(this.angle);
         this.y -= this.speed * Math.cos(this.angle);     
     }
+    // collision detection function
     this.crashWith = function(otherobj) {
         var myleft = this.x;
         var myright = this.x + (this.width);
@@ -79,6 +88,7 @@ function component(width, height, color, x, y, type) {
       }
 }
 
+// interval function to decided when to spawn zomibes
 function everyinterval(n) {
     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
     return false;
@@ -86,12 +96,24 @@ function everyinterval(n) {
 
 function updateGameArea() {
     var x, y;
+
+    // checking if the player has crashed with a wall 
+    for (i = 0; i < myWalls.length; i += 1) {
+        if (myGamePiece.crashWith(myWalls[i])) {
+          myGameArea.stop();
+          return;
+        }
+    }
+
+    // checking if player has collided with obstacles.
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
           myGameArea.stop();
           return;
         }
     }
+
+    // loop to check for bullets hiting enemies
     for (i = 0; i < bullets.length; i += 1) {
         for(x = 0; x < myObstacles.length; x +=1){
             if (bullets[i].crashWith(myObstacles[x])) {
@@ -104,13 +126,36 @@ function updateGameArea() {
     myGameArea.frameNo += 1;
 
     if (myGameArea.frameNo == 1 || everyinterval(150)) {
-        x = myGameArea.canvas.width;
-        y = myGameArea.canvas.height - 200
-        myObstacles.push(new component(30, 30, "green", x, y));
+        // spawning emimes and randomly deciding what location on the edge they spawn.
+        var p = Math.floor(Math.random() * 100);
+        if (p <= 25){
+            var y = Math.floor(Math.random() * (window.innerHeight))
+            myObstacles.push(new component(30, 30, "green", 0, y));
+        }
+
+        if (p > 25 && p <= 50){
+            var y = Math.floor(Math.random() * (window.innerHeight))
+            myObstacles.push(new component(30, 30, "green", (window.innerWidth), y));
+        }
+
+        if (p > 50 && p <= 75){
+            var x = Math.floor(Math.random() * (window.innerWidth))
+            myObstacles.push(new component(30, 30, "green", x, 0));
+        }
+
+        if (p > 75 && p <= 100){
+            var x = Math.floor(Math.random() * (window.innerHeight * 2))
+            myObstacles.push(new component(30, 30, "green", x,(window.innerHeight)));
+        }
       }
     for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].x += -1;
+        myObstacles[i].angle = angle360(myObstacles[i].x,myObstacles[i].y, myGamePiece.x, myGamePiece.y);
+        myObstacles[i].speed = 2;
+        myObstacles[i].newPos();
         myObstacles[i].update();
+    }
+    for (i = 0; i < myWalls.length; i +=1) {
+        myWalls[i].update();
     }
     for (i = 0; i < bullets.length; i +=1) {
         bullets[i].newPos();
@@ -127,6 +172,24 @@ function updateGameArea() {
     myGamePiece.update();
 }
 
+
+// angle functions to make the zombies chase the player
+function angle(cx, cy, ex, ey) {
+    var dy = ey - cy;
+    var dx = ex - cx;
+    var theta = Math.atan2(dy, dx); // range (-PI, PI]
+    theta *= 180 / Math.PI; // rads to degs, range (-180, 180]
+    return theta;
+  }
+
+function angle360(cx, cy, ex, ey) {
+    var theta = angle(cx, cy, ex, ey); // range (-180, 180]
+    if (theta < 0) theta = 360 + theta; // range [0, 360)
+    return theta;
+  }
+
+
+// function to shoot from the player and kill zombies
 function shoot(){
     var x = myGamePiece.x;
     var y = myGamePiece.y;
