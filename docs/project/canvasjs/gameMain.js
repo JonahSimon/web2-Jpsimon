@@ -2,15 +2,17 @@ var myGamePiece;
 var myWalls = [];
 var myObstacles = [];
 var bullets = [];
+var score = 0;
 
 // start game, draw players and walls. 
 function startGame() {
     myGameArea.start();
-    myGamePiece = new component(30, 30, "red", 120, 120, "player");
+    myGamePiece = new component(30, 30, "red", myGameArea.canvas.width/2, myGameArea.canvas.height/2, "player");
     myWalls.push(new component( 20, window.innerHeight * 2, "green", 0, 0, "wall"));
     myWalls.push(new component( window.innerWidth * 2, 20, "green", 0, 0, "wall"));
     myWalls.push(new component( 20, window.innerHeight * 2, "green", window.innerWidth, 0, "wall"));
     myWalls.push(new component( window.innerWidth * 2, 20, "green", 0, window.innerHeight, "wall"));
+
 }
 
 // the play area
@@ -117,6 +119,7 @@ function updateGameArea() {
     for (i = 0; i < bullets.length; i += 1) {
         for(x = 0; x < myObstacles.length; x +=1){
             if (bullets[i].crashWith(myObstacles[x])) {
+                score += 100;
                 myObstacles[x].color = "white";
                 myObstacles.splice(x,1);
             }         
@@ -127,6 +130,7 @@ function updateGameArea() {
 
     if (myGameArea.frameNo == 1 || everyinterval(150)) {
         // spawning emimes and randomly deciding what location on the edge they spawn.
+        score += 10;
         var p = Math.floor(Math.random() * 100);
         if (p <= 25){
             var y = Math.floor(Math.random() * (window.innerHeight))
@@ -170,6 +174,7 @@ function updateGameArea() {
     if (myGameArea.keys && myGameArea.keys[83]) {myGamePiece.speed = 3; }
     myGamePiece.newPos();    
     myGamePiece.update();
+    updateScore();
 }
 
 
@@ -198,4 +203,12 @@ function shoot(){
     newBullet.angle = myGamePiece.angle;
     bullets.push(newBullet);
     bullets.update();
+}
+
+function updateScore(){
+    console.log("plz");
+    myGameArea.context.font = "30px Comic Sans MS";
+    myGameArea.context.fillStyle = "red";
+    myGameArea.context.textAlign = "center";
+    myGameArea.context.fillText(score, window.innerWidth/2, 40);
 }
