@@ -3,6 +3,7 @@ var myWalls = [];
 var myObstacles = [];
 var bullets = [];
 var score = 0;
+var fullscale = true;
 
 // start game, draw players and walls. 
 function startGame() {
@@ -19,8 +20,25 @@ function startGame() {
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
+        if (window.innerWidth < 800){
+            fullscale  = false;
+            this.canvas. width = window.innerWidth - 100;
+            this.canvas.height = window.innerHeight - 100;
+            myWalls.push(new component( 20, (window.innerHeight - 100) * 2, "green", 0, 0, "wall"));
+            myWalls.push(new component( (window.innerWidth-100) * 2, 20, "green", 0, 0, "wall"));
+            myWalls.push(new component( 20, (window.innerHeight-100) * 2, "green", (window.innerWidth-100), 0, "wall"));
+            myWalls.push(new component( (window.innerWidth-100) * 2, 20, "green", 0, (window.innerHeight-100), "wall"));
+        
+        }
+        else{
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
+        myWalls.push(new component( 20, window.innerHeight * 2, "green", 0, 0, "wall"));
+        myWalls.push(new component( window.innerWidth * 2, 20, "green", 0, 0, "wall"));
+        myWalls.push(new component( 20, window.innerHeight * 2, "green", window.innerWidth, 0, "wall"));
+        myWalls.push(new component( window.innerWidth * 2, 20, "green", 0, window.innerHeight, "wall"));
+    
+        }
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;  
@@ -210,5 +228,10 @@ function updateScore(){
     myGameArea.context.font = "30px Comic Sans MS";
     myGameArea.context.fillStyle = "red";
     myGameArea.context.textAlign = "center";
-    myGameArea.context.fillText(score, window.innerWidth/2, 40);
+    if(fullscale){
+        myGameArea.context.fillText(score, window.innerWidth/2, 40);
+    }
+    else{
+        myGameArea.context.fillText(score, (window.innerWidth-100)/2, 40);
+    }
 }
