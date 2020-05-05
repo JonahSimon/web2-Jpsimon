@@ -23,7 +23,7 @@ var myGameArea = {
         if (window.innerWidth < 800){
             fullscale  = false;
             this.canvas. width = window.innerWidth - 100;
-            this.canvas.height = window.innerHeight - 100;
+            this.canvas.height = window.innerHeight - 140;
             myWalls.push(new component( 20, (window.innerHeight - 100) * 2, "green", 0, 0, "wall"));
             myWalls.push(new component( (window.innerWidth-100) * 2, 20, "green", 0, 0, "wall"));
             myWalls.push(new component( 20, (window.innerHeight-100) * 2, "green", (window.innerWidth-100), 0, "wall"));
@@ -212,6 +212,24 @@ function angle360(cx, cy, ex, ey) {
   }
 
 
+//Controler as buttons
+function moveup() {
+    myGamePiece.speed = -3; 
+}
+
+function movedown() {
+    myGamePiece.speed = 3; 
+}
+
+function moveleft() {
+    myGamePiece.moveAngle = -3; 
+}
+
+function moveright() {
+    myGamePiece.moveAngle = 3; 
+}
+
+
 // function to shoot from the player and kill zombies
 function shoot(){
     var x = myGamePiece.x;
@@ -235,3 +253,9 @@ function updateScore(){
         myGameArea.context.fillText(score, (window.innerWidth-100)/2, 40);
     }
 }
+
+document.getElementById("UP").onclick =  myGamePiece.speed = -3;
+document.getElementById("DOWN").onclick = myGamePiece.speed = 3;
+document.getElementById("SHOOT").onclick = shoot;
+document.getElementById("LEFT").onclick = myGamePiece.moveAngle = -3;
+document.getElementById("RIGHT").onclick = myGamePiece.moveAngle = 3;
