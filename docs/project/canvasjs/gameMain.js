@@ -23,7 +23,7 @@ var myGameArea = {
         if (window.innerWidth < 800){
             fullscale  = false;
             this.canvas. width = window.innerWidth - 100;
-            this.canvas.height = window.innerHeight - 140;
+            this.canvas.height = window.innerHeight - 100;
             myWalls.push(new component( 20, (window.innerHeight - 100) * 2, "green", 0, 0, "wall"));
             myWalls.push(new component( (window.innerWidth-100) * 2, 20, "green", 0, 0, "wall"));
             myWalls.push(new component( 20, (window.innerHeight-100) * 2, "green", (window.innerWidth-100), 0, "wall"));
@@ -43,6 +43,7 @@ var myGameArea = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;  
         this.interval = setInterval(updateGameArea, 10);
+        this.canvas.style.cursor = "none";
         window.addEventListener('keydown', function (e) {
             e.preventDefault();
             myGameArea.keys = (myGameArea.keys || []);
@@ -51,6 +52,14 @@ var myGameArea = {
         window.addEventListener('keyup', function (e) {
             myGameArea.keys[e.keyCode] = (e.type == "keydown");
         })
+        window.addEventListener('touchmove', function (e) {
+            myGameArea.x = e.touches[0].screenX;
+            myGameArea.y = e.touches[0].screenY;
+          })
+        window.addEventListener('mousemove', function (e) {
+            myGameArea.x = e.pageX;
+            myGameArea.y = e.pageY;
+          })
 
     }, 
     clear : function(){
@@ -185,11 +194,20 @@ function updateGameArea() {
     }
     myGamePiece.moveAngle = 0;
     myGamePiece.speed = 0;
-    if (myGameArea.keys && myGameArea.keys[32]) {shoot();} 
-    if (myGameArea.keys && myGameArea.keys[65]) {myGamePiece.moveAngle = -3; }
-    if (myGameArea.keys && myGameArea.keys[68]) {myGamePiece.moveAngle = 3; }
-    if (myGameArea.keys && myGameArea.keys[87]) {myGamePiece.speed = -3; }
-    if (myGameArea.keys && myGameArea.keys[83]) {myGamePiece.speed = 3; }
+
+    if (fullscale == true){
+        if (myGameArea.keys && myGameArea.keys[32]) {shoot();} 
+        if (myGameArea.keys && myGameArea.keys[65]) {myGamePiece.moveAngle = -3; }
+        if (myGameArea.keys && myGameArea.keys[68]) {myGamePiece.moveAngle = 3; }
+        if (myGameArea.keys && myGameArea.keys[87]) {myGamePiece.speed = -3; }
+        if (myGameArea.keys && myGameArea.keys[83]) {myGamePiece.speed = 3; }
+    }
+    else{
+        if (myGameArea.x && myGameArea.y){
+                myGamePiece.x = myGameArea.x;
+                myGamePiece.y = myGameArea.y;
+        }  
+    } 
     myGamePiece.newPos();    
     myGamePiece.update();
     updateScore();
@@ -214,19 +232,24 @@ function angle360(cx, cy, ex, ey) {
 
 //Controler as buttons
 function moveup() {
-    myGamePiece.speed = -3; 
 }
 
 function movedown() {
-    myGamePiece.speed = 3; 
+    myGamePiece.speed = 3;
+    myGamePiece.newPos();    
+    myGamePiece.update(); 
 }
 
 function moveleft() {
-    myGamePiece.moveAngle = -3; 
+    myGamePiece.moveAngle = -3;
+    myGamePiece.newPos();    
+    myGamePiece.update(); 
 }
 
 function moveright() {
     myGamePiece.moveAngle = 3; 
+    myGamePiece.newPos();    
+    myGamePiece.update();
 }
 
 
@@ -254,8 +277,4 @@ function updateScore(){
     }
 }
 
-document.getElementById("UP").onclick =  myGamePiece.speed = -3;
-document.getElementById("DOWN").onclick = myGamePiece.speed = 3;
 document.getElementById("SHOOT").onclick = shoot;
-document.getElementById("LEFT").onclick = myGamePiece.moveAngle = -3;
-document.getElementById("RIGHT").onclick = myGamePiece.moveAngle = 3;
