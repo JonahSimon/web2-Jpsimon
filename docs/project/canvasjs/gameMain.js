@@ -54,7 +54,7 @@ var myGameArea = {
         window.addEventListener('keyup', function (e) {
             myGameArea.keys[e.keyCode] = (e.type == "keydown");
         })
-        window.addEventListener('touchend', function (e) {
+        window.addEventListener('touchmove', function (e) {
             myGameArea.x = e.touches[0].screenX;
             myGameArea.y = e.touches[0].screenY;
         })
