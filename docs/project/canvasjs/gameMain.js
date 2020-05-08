@@ -5,6 +5,8 @@ var bullets = [];
 var score = 0;
 var fullscale = true;
 
+document.getElementById("SHOOT").ontouchmove = shoot;
+
 // start game, draw players and walls. 
 function startGame() {
     myGameArea.start();
@@ -55,11 +57,7 @@ var myGameArea = {
         window.addEventListener('touchmove', function (e) {
             myGameArea.x = e.touches[0].screenX;
             myGameArea.y = e.touches[0].screenY;
-          })
-        window.addEventListener('mousemove', function (e) {
-            myGameArea.x = e.pageX;
-            myGameArea.y = e.pageY;
-          })
+        })
 
     }, 
     clear : function(){
@@ -276,5 +274,3 @@ function updateScore(){
         myGameArea.context.fillText(score, (window.innerWidth-100)/2, 40);
     }
 }
-
-document.getElementById("SHOOT").onclick = shoot;
