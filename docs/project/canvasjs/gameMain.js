@@ -193,19 +193,16 @@ function updateGameArea() {
     myGamePiece.moveAngle = 0;
     myGamePiece.speed = 0;
 
-    if (fullscale == true){
-        if (myGameArea.keys && myGameArea.keys[32]) {shoot();} 
-        if (myGameArea.keys && myGameArea.keys[65]) {myGamePiece.moveAngle = -3; }
-        if (myGameArea.keys && myGameArea.keys[68]) {myGamePiece.moveAngle = 3; }
-        if (myGameArea.keys && myGameArea.keys[87]) {myGamePiece.speed = -3; }
-        if (myGameArea.keys && myGameArea.keys[83]) {myGamePiece.speed = 3; }
-    }
-    else{
-        if (myGameArea.x && myGameArea.y){
-                myGamePiece.x = myGameArea.x;
-                myGamePiece.y = myGameArea.y;
-        }  
-    } 
+    if (myGameArea.keys && myGameArea.keys[32]) {shoot();} 
+    if (myGameArea.keys && myGameArea.keys[65]) {myGamePiece.moveAngle = -3; }
+    if (myGameArea.keys && myGameArea.keys[68]) {myGamePiece.moveAngle = 3; }
+    if (myGameArea.keys && myGameArea.keys[87]) {myGamePiece.speed = -3; }
+    if (myGameArea.keys && myGameArea.keys[83]) {myGamePiece.speed = 3; }
+    
+    if (myGameArea.x && myGameArea.y){
+            myGamePiece.x = myGameArea.x;
+            myGamePiece.y = myGameArea.y;
+    }  
     myGamePiece.newPos();    
     myGamePiece.update();
     updateScore();
