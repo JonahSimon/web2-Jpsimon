@@ -22,3 +22,7 @@ body {
         display: block;
     }
 }
+
+button{
+    size: 50px;
+}

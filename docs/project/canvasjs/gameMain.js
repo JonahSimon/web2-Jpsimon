@@ -5,7 +5,7 @@ var bullets = [];
 var score = 0;
 var fullscale = true;
 
-document.getElementById("SHOOT").ontouchmove = shoot;
+document.getElementById("SHOOT").onclick = shoot;
 
 // start game, draw players and walls. 
 function startGame() {
@@ -54,11 +54,11 @@ var myGameArea = {
         window.addEventListener('keyup', function (e) {
             myGameArea.keys[e.keyCode] = (e.type == "keydown");
         })
-        window.addEventListener('touchmove', function (e) {
+        window.addEventListener('touchend', function (e) {
             myGameArea.x = e.touches[0].screenX;
             myGameArea.y = e.touches[0].screenY;
         })
-
+        
     }, 
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -209,6 +209,7 @@ function updateGameArea() {
     myGamePiece.newPos();    
     myGamePiece.update();
     updateScore();
+    console.log(fullscale);
 }
 
 
