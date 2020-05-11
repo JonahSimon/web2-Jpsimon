@@ -2,6 +2,6 @@
 
 ## Screenshots
 
-![Fullscale](to be taken)
+![Fullscale](Fullscale.png)
 
-![Mobile](to be taken)
+![Mobile](Mobile.png)
